@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel=stylesheet href="assets/css/style.css">
+  <title>Object CRUD</title>
+</head>
+<body>
+  
+
+    <div class="container">
+      <h1>Parent List</h1>
+      <form id="input-form">
+        <fieldset id="container-input">
+          <label for="parent-first-name"
+            >Parent's First Name: <span id="red">*</span></label
+          >
+          <input
+            type="text"
+            id="parent-first-name"
+            class="form-input"
+            required
+            name="parent-first-name"
+            
+          />
+
+          <label for="parent-last-name"
+            >Parent's Last Name: <span id="red">*</span></label
+          >
+          <input
+            type="text"
+            id="parent-last-name"
+            class="form-input"
+            required
+            name="parent-last-name"
+        
+          />
+
+          <label for="email">Email Address: </label>
+          <input
+            type="email"
+            id="email"
+            class="form-input"
+            name="email"
+            placeholder="ex: name@email.com"
+          />
+
+          <label for="child-name"
+            >Child's First Name: <span id="red">*</span></label
+          >
+          <input
+            type="text"
+            id="child-name"
+            class="form-input"
+            required
+            name="child-name"
+            
+          />
+
+          <label for="grade">Child's Grade: </label>
+          <input
+            type="number"
+            min="1"
+            max="12"
+            id="grade"
+            class="form-input"
+            name="grade"
+          />
+          <button class="btn" id="save-task">Add Record</button>
+<!--          <input id="submit" class="submit" type="button" onclick="addRecord()" value="Add Record" /> -->
+         
+        </fieldset>
+      </form>
+
+      <fieldset id="container-output">
+        <table border=1>
+          <thead id="table-header">
+            <tr>
+              <th class="h-name">Parent's First Name</th>
+              <th class="h-name">Parent's Last Name</th>
+              <th class="h-email">Email</th>
+              <th class="h-name">Child's First Name</th>
+              <th class="h-grade">Child's Grade</th>
+              <th class="h-actions" colspan=2>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="users"></tbody>
+          <tr>
+            <td>
+              <table id="myTable"></table>
+            </td>
+          </tr>
+        </table>
+      </fieldset>
+    </div>
+  <script src="./assets/js/script.js"></script>
+</body>
+
+</html>
