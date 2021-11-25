@@ -65,18 +65,23 @@ let createRecordEl = function(parentObj) {
   table.setAttribute("data-record-id", recordIdCounter);
 
   let cell1 = table.insertCell(0);
+  cell1.className = "p-parent-first-name";
   cell1.innerHTML = parentObj.parentFirstName;
  
   let cell2 = table.insertCell(1);
+  cell2.className = "p-parent-last-name";
   cell2.innerHTML = parentObj.parentLastName;
   
   let cell3 = table.insertCell(2);
+  cell3.className = "p-email";
   cell3.innerHTML = parentObj.email;
 
   let cell4 = table.insertCell(3);
+  cell4.className = "p-child-name";
   cell4.innerHTML = parentObj.childName;
  
   let cell5 = table.insertCell(4);
+  cell5.className = "p-grade";
   cell5.innerHTML = parentObj.grade;
  
   // let cell6 = table.insertCell(5);
@@ -124,13 +129,52 @@ let createRecordActions = function(recordId) {
 };
 
 let recordButtonHandler = function(event) {
-  console.log(event.target);
+  // get target element from event
+  const targetEl = event.target;
 
-  if (event.target.matches(".delete-btn")) {
+  // if edit button was clicked
+  if (targetEl.matches(".edit-btn")) {
+    let recordId = targetEl.getAttribute("data-record-id");
+    editRecord(recordId);
+  }
+
+  // if delete button was clicked
+  if (targetEl.matches(".delete-btn")) {
     // get the element's record id
-    var recordId = event.target.getAttribute("data-record-id");
+    let recordId = targetEl.getAttribute("data-record-id");
     deleteRecord(recordId);
   }
+};
+
+let editRecord = function(recordId) {
+  // get record element
+  let recordSelected = document.querySelector(".record-item[data-record-id='" + recordId + "']");
+
+  // get content from object
+  let recordFirstName = recordSelected.querySelector(
+    "td.p-parent-first-name"
+  ).textContent;
+  console.log(recordFirstName);
+
+  let recordLastName = recordSelected.querySelector(
+    "td.p-parent-last-name"
+  ).textContent;
+  console.log(recordLastName);
+
+  let recordEmail = recordSelected.querySelector(
+    "td.p-email"
+  ).textContent;
+  console.log(recordEmail);
+
+  let recordChildName = recordSelected.querySelector(
+    "td.p-child-name"
+  ).textContent;
+  console.log(recordChildName);
+
+  let recordGrade = recordSelected.querySelector(
+    "td.p-grade"
+  ).textContent;
+  console.log(recordGrade);
 };
 
 let deleteRecord = function(recordId) {
