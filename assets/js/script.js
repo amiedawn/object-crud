@@ -39,20 +39,41 @@ function formHandler(event) {
     }
   }
 
-  // package data as an object
-  const parentObj = new Parent(
-    parentFirstName,
-    parentLastName,
-    email,
-    childName,
-    grade
-  );
-  parentObj.getInfo();
+  // determine if the element has a record id yet (if yes, we are editing a record, if no, we are creating)
+  let isEdit = formEl.hasAttribute("data-record-id");
+
+  // if it has data attribute, get record id and call function to complete editing
+  if (isEdit) {
+    let recordId = formEl.getAttribute("data-record-id");
+    completeEditRecord(
+      parentFirstName,
+      parentLastName,
+      email,
+      childName,
+      grade,
+      recordId
+    );
+  }
+  // no data attribute, so create new object and pass to createRecordEl function
+  // reset form to default values when you successfully submit a record
+  else {
+    // package data as an object
+    const parentObj = new Parent(
+      parentFirstName,
+      parentLastName,
+      email,
+      childName,
+      grade
+    );
+    parentObj.getInfo();
+    createRecordEl(parentObj);
+  }
+
+  
 
   // send object as argument to createRecordEl
-  createRecordEl(parentObj);
+  //createRecordEl(parentObj);
 
-  // reset form to default values when you successfully submit a record
   formEl.reset();
 };
 
@@ -83,18 +104,6 @@ let createRecordEl = function(parentObj) {
   let cell5 = table.insertCell(4);
   cell5.className = "p-grade";
   cell5.innerHTML = parentObj.grade;
- 
-  // let cell6 = table.insertCell(5);
-  // cell6.innerHTML =
-  //   "<input type='button' value='Edit' onclick='editRow(this)' />";
-  //   cell6.className = "record-item";
-  // cell6.setAttribute("data-record-id", recordIdCounter);
-
-  // let cell7 = table.insertCell(6);
-  // cell7.innerHTML =
-  //   "<input type='button' value='Delete' onclick='deleteRow()' />";
-  //   cell7.className = "record-item";
-  // cell7.setAttribute("data-record-id", recordIdCounter);
 
   const recordActionsEl = createRecordActions(recordIdCounter);
   table.appendChild(recordActionsEl);
@@ -151,30 +160,43 @@ let editRecord = function(recordId) {
   let recordSelected = document.querySelector(".record-item[data-record-id='" + recordId + "']");
 
   // get content from object
-  let recordFirstName = recordSelected.querySelector(
-    "td.p-parent-first-name"
-  ).textContent;
-  console.log(recordFirstName);
+  let recordParentFirstName = recordSelected.querySelector("td.p-parent-first-name").textContent;
+  let recordParentLastName = recordSelected.querySelector("td.p-parent-last-name").textContent;
+  let recordEmail = recordSelected.querySelector("td.p-email").textContent;
+  let recordChildName = recordSelected.querySelector("td.p-child-name").textContent;
+  let recordGrade = recordSelected.querySelector("td.p-grade").textContent;
+ 
+  // restore data to form for a particular record
+  document.querySelector("input[name='parent-first-name']").value = recordParentFirstName;
+  document.querySelector("input[name='parent-last-name']").value = recordParentLastName;
+  document.querySelector("input[name='email']").value = recordEmail;
+  document.querySelector("input[name='child-name']").value = recordChildName;
+  document.querySelector("input[name='grade']").value = recordGrade;
 
-  let recordLastName = recordSelected.querySelector(
-    "td.p-parent-last-name"
-  ).textContent;
-  console.log(recordLastName);
+  // include the record's id
+  formEl.setAttribute("data-record-id", recordId);
 
-  let recordEmail = recordSelected.querySelector(
-    "td.p-email"
-  ).textContent;
-  console.log(recordEmail);
+  // change label of submit to "Update Record"
+  document.querySelector("#save-record").textContent = "Update Record";
+};
 
-  let recordChildName = recordSelected.querySelector(
-    "td.p-child-name"
-  ).textContent;
-  console.log(recordChildName);
+let completeEditRecord = function(parentFirstName, parentLastName, email, childName, grade, recordId) {
+  //console.log(parentFirstName, parentLastName, email, childName, grade, recordId);
+  // find the matching record items
+  let recordSelected = document.querySelector(".record-item[data-record-id='" + recordId + "']")
+  
+  // set new values
+  recordSelected.querySelector("td.p-parent-first-name").textContent = parentFirstName;
+  recordSelected.querySelector("td.p-parent-last-name").textContent = parentLastName;
+  recordSelected.querySelector("td.p-email").textContent = email;
+  recordSelected.querySelector("td.p-child-name").textContent = childName;
+  recordSelected.querySelector("td.p-grade").textContent = grade;
 
-  let recordGrade = recordSelected.querySelector(
-    "td.p-grade"
-  ).textContent;
-  console.log(recordGrade);
+  alert("Your record has been updated.");
+
+  // reset the form by removing the record id and changing the button text back to normal
+  formEl.removeAttribute("data-record-id");
+  document.querySelector("#save-record").textContent = "Add Record";
 };
 
 let deleteRecord = function(recordId) {
