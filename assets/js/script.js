@@ -55,7 +55,6 @@ function formHandler(event) {
     );
   }
   // no data attribute, so create new object and pass to createRecordEl function
-  // reset form to default values when you successfully submit a record
   else {
     // package data as an object
     const parentObj = new Parent(
@@ -66,14 +65,12 @@ function formHandler(event) {
       grade
     );
     parentObj.getInfo();
+
+    // send object as argument to createRecordEl
     createRecordEl(parentObj);
   }
 
-  
-
-  // send object as argument to createRecordEl
-  //createRecordEl(parentObj);
-
+  // reset form to default values when you successfully submit a record
   formEl.reset();
 };
 
@@ -110,8 +107,6 @@ let createRecordEl = function(parentObj) {
 
   // increase record counter for next unique id
   recordIdCounter++;
-
-
 };
 
 let createRecordActions = function(recordId) {
@@ -181,7 +176,6 @@ let editRecord = function(recordId) {
 };
 
 let completeEditRecord = function(parentFirstName, parentLastName, email, childName, grade, recordId) {
-  //console.log(parentFirstName, parentLastName, email, childName, grade, recordId);
   // find the matching record items
   let recordSelected = document.querySelector(".record-item[data-record-id='" + recordId + "']")
   
